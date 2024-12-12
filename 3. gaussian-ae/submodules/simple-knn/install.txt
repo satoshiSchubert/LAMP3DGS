@@ -1,0 +1,9 @@
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/not-zip-safe
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/PKG-INFO
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/native_libs.txt
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/top_level.txt
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/dependency_links.txt
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/EGG-INFO/SOURCES.txt
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/simple_knn/_C.py
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/simple_knn/_C.cpython-312-x86_64-linux-gnu.so
+/home/jkw/miniconda3/lib/python3.12/site-packages/simple_knn-0.0.0-py3.12-linux-x86_64.egg/simple_knn/__pycache__/_C.cpython-312.pyc

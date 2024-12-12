@@ -1,0 +1,27 @@
+# ninja log v5
+1	5488	1729495245338441722	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/backward.o	e24db289c686ebbc
+2	5618	1729495245462442948	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+2	18639	1729495258477571169	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+2	29748	1729495269571679781	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/ext.o	584a62ae0c0f0825
+3	94565	1729495334360302177	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
+32	5924	1729698058381963207	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+32	6127	1729698058585963116	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/backward.o	e24db289c686ebbc
+33	19663	1729698072112957771	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+33	30459	1729698082897954506	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/ext.o	584a62ae0c0f0825
+33	99760	1729698152170953394	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
+32	28198	1730477869818244384	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/ext.o	584a62ae0c0f0825
+34	5981	1730823227791795916	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+34	6226	1730823228035810619	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/backward.o	e24db289c686ebbc
+34	19918	1730823241718625479	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+35	100918	1730823322678098652	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
+38	5837	1730873899040480216	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+39	19636	1730873912827873451	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+39	92643	1730873985795859384	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
+35	5729	1730874351442984962	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+35	6029	1730874351751990865	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/backward.o	e24db289c686ebbc
+36	19168	1730874364887240584	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+36	102577	1730874448247775729	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
+34	5682	1730963822656526796	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/forward.o	b9b9db7f4887efc4
+33	5902	1730963822878528297	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/backward.o	e24db289c686ebbc
+35	19289	1730963836254617999	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/cuda_rasterizer/rasterizer_impl.o	7078290cbdf24ce0
+35	94726	1730963911655099539	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-312/rasterize_points.o	989ecf73df2b36e7
