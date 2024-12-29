@@ -1,4 +1,0 @@
-# ninja log v5
-1	19742	1722328156940911913	/home/jkw/gaussian-ae/submodules/simple-knn/build/temp.linux-x86_64-cpython-312/simple_knn.o	c8fbe4e629e973
-0	29252	1722328166444777756	/home/jkw/gaussian-ae/submodules/simple-knn/build/temp.linux-x86_64-cpython-312/ext.o	e3bc5df515548f44
-1	95770	1722328232922891452	/home/jkw/gaussian-ae/submodules/simple-knn/build/temp.linux-x86_64-cpython-312/spatial.o	f60c5896d1bdf6eb

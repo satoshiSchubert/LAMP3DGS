@@ -1,6 +1,0 @@
-# ninja log v5
-1	4793	1731425023467803108	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-310/cuda_rasterizer/forward.o	3267e262f24081fc
-0	5063	1731425023735809620	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-310/cuda_rasterizer/backward.o	bd8548b312909dc1
-1	15682	1731425034345065477	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-310/cuda_rasterizer/rasterizer_impl.o	7d262d91490e7e46
-1	24732	1731425043380280538	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-310/ext.o	54db70eeb543a631
-1	76597	1731425095217466271	/home/jkw/gaussian-ae/submodules/diff-gaussian-rasterization_extend/build/temp.linux-x86_64-cpython-310/rasterize_points.o	a16a7e46091015fd
