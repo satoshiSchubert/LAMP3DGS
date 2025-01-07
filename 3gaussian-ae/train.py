@@ -79,7 +79,7 @@ optParam = Param({
     'position_lr_init' : 0.00016,
     'position_lr_final' : 0.0000016,
     'position_lr_delay_mult' : 0.01,
-    'position_lr_max_steps' : 30_000, #60_000, #30_000,
+    'position_lr_max_steps' : 20_000, #60_000, #30_000,
     'feature_lr' : 0.0025,
     'extra_lr' : 0.0025,
     'opacity_lr' : 0.05,
@@ -89,8 +89,8 @@ optParam = Param({
     'lambda_dssim' : 0.2,
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
-    'densify_from_iter' : 1_000, #500,
-    'densify_until_iter' : 15_000, #15_000,
+    'densify_from_iter' : 3_000, #500,
+    'densify_until_iter' : 6_000, #15_000,
     'opacity_thres' : 0.05, #0.005, # 0.008 #0.05
     'densify_grad_threshold' : 0.0002, # 0.00016 # 0.0002
     'random_background' : False
@@ -98,7 +98,7 @@ optParam = Param({
 trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
-    'maxIter' : 6_0000, #60_000, #30_000,
+    'maxIter' : 60_000, #60_000, #30_000,
     'savePer' : 2_000,
     'trackPer' : 10_000,
     'trackId' : 0,
@@ -484,7 +484,7 @@ class Scene:
         else:
             varChannel = 3+3 # rayDir + lightDir
         outChannel = 4
-        self.aeModel = PixelGenerator(gsOutChannel, varChannel, outChannel, 512, 8).to(tdev)
+        self.aeModel = PixelGenerator(gsOutChannel, varChannel, outChannel, 32, 4).to(tdev)
         self.geoModel = None
         if params.geoloss:
             geoChannel = 32
@@ -647,13 +647,25 @@ class Scene:
 
         return rpkg, imgOutput, geoOutput
 
+
+
     def renderWithExplicitGeo(self, id, kargs, device=tdev, **others):
+
+        starter, ender, splatender, aestarter, aeender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+
+
         res = (self.camera[id].width, self.camera[id].height)
         global bgImg
         if bgImg is None:
             bgImg = torch.zeros((4+32+3, res[1], res[0]), device=tdev)
 
+        starter.record()
+
         rpkg = render_multichannel(self.camera[id], self.gaussian, kargs, bgImg, device=tdev)
+
+        splatender.record()
+        torch.cuda.synchronize()
+
         img, vpt, vf, radii = rpkg['render'], rpkg['viewspace_points'], rpkg['visibility_filter'], rpkg['radii']
         # light information
         lightDir = torch.tensor(self.camera[id].lightDir, dtype=t.float32, device=tdev).reshape(-1,1,1).repeat(1, img.shape[1], img.shape[2])
@@ -670,13 +682,26 @@ class Scene:
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # ae
+        aestarter.record()
         imgOutput = self.aeModel(imgInput)
+        aeender.record()
+        torch.cuda.synchronize()
+
         imgOutput.squeeze_(0)
         #imgOutput = imgOutput.permute(2, 0, 1)
         #imgOutput = t.cat((imgOutput, img[3:4]))
         #imgOutput = imgOutput.permute(1, 2, 0)
         # geo
         geoOutput = img[36:39, :, :].permute(1,2,0)
+
+        ender.record()
+        torch.cuda.synchronize()
+
+        if id%10==0:
+            print(f" id:{id}, frame time: {starter.elapsed_time(ender)} ms, ",
+                  f"splat: {starter.elapsed_time(splatender)} ms,",
+                  f"ae: {aestarter.elapsed_time(aeender)} ms")
+
 
         return rpkg, imgOutput, geoOutput
 
@@ -885,8 +910,8 @@ class Scene:
 
 
 
-
 def renderSet(scene, kargs : Param, renderList = None):
+    print(" ------ 测试render时间 ------ ")
     with torch.no_grad():
         if scene is None:
             dsList = None
@@ -895,8 +920,8 @@ def renderSet(scene, kargs : Param, renderList = None):
             cmrList = readAllConfig(kargs)
 
             if kargs['checkpoint'] is None:
-                kargs['checkpoint'] = './furball/pc/{}_checkpoint_60000.pth'.format(trainVersion)
-                kargs['initFile']   = './furball/pc/{}_pc_60000.ply'.format(trainVersion)
+                kargs['checkpoint'] = './furball/pc/{}_checkpoint_36000.pth'.format(trainVersion)
+                kargs['initFile']   = './furball/pc/{}_pc_36000.ply'.format(trainVersion)
             print(tdev)
             gs = GaussianModel(tdev)
             scene = Scene(
@@ -909,31 +934,42 @@ def renderSet(scene, kargs : Param, renderList = None):
 
         gs = scene.gaussian
 
+        trainsize = 200 # 2000 , 0-trainsize 为训练集的测试样本
+        testsize = 256 # 2100 ， trainsize-testsize 为测试集的测试样本
+
         if renderList is None:
             print('Train Set Now')
-            pb = tqdm(range(1, 2000 + 1), desc='Progress', dynamic_ncols=True)
-            for iter in range(0, 2000):
+            pb = tqdm(range(1, trainsize + 1), desc='Progress', dynamic_ncols=True)
+
+            # 测试渲染时间
+            start = time.time()
+            for iter in range(0, trainsize):
                 rpkg, img, geo = scene.renderWithExplicitGeo(iter, kargs, device=tdev)
                 if kargs.dsType == 'env':
                     #saveExr(img.cpu().numpy(), './furball/render/{}-train-{}-nobg.exr'.format(trainVersion, iter), datasetChannels[0:4])
                     bgTemp = scene.datasets[iter][1][6:9]
                     img = scene.mixEnvBG(img, bgTemp)
-                imgLen = img.shape[2]
-                saveExr(img.cpu().numpy(), './furball/render/{}-train-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
+                #imgLen = img.shape[2]
+                #saveExr(img.cpu().numpy(), './furball/render/{}-train-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
                 pb.update(1)
+            end = time.time()
+            print('Train Set Time per iter: ', (end - start)/ trainsize)
             pb.close()
 
             print('Test Set Now')
             pb = tqdm(range(1, 100 + 1), desc='Progress', dynamic_ncols=True)
             scene.aeModel.eval()
-            for iter in range(2000, 2100):
+            start = time.time()
+            for iter in range(trainsize, testsize):
                 rpkg, img, geo = scene.renderWithExplicitGeo(iter, kargs, device=tdev)
                 if kargs.dsType == 'env':
                     bgTemp = scene.datasets[iter][1][6:9]
                     img = scene.mixEnvBG(img, bgTemp)
-                imgLen = img.shape[2]
-                saveExr(img.cpu().numpy()[:,:,:], './furball/render/{}-test-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
+                #imgLen = img.shape[2]
+                #saveExr(img.cpu().numpy()[:,:,:], './furball/render/{}-test-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
                 pb.update(1)
+            end = time.time()
+            print('Test Set Time per iter: ', (end - start) / (testsize - trainsize))
             pb.close()
         else:
             print('Custom Render List')
@@ -959,6 +995,7 @@ def train(kargs : Param):
     # dataset
     renderResult = not kargs['skipResult']
     skipTrain = kargs['skipTrain']
+    #skipTrain = True
     scene = None
 
     if not skipTrain:
@@ -1032,7 +1069,7 @@ if __name__ == '__main__':
     if not totalParam.skipVideo:
         print('\nRendering Video')
         if totalParam.dsType == 'env' or totalParam.dsType == 'enva':
-            totalParam['cmrPath'] = './furball/cfgs-envvide o.json'
+            totalParam['cmrPath'] = './furball/cfgs-envvideo.json'
         else:
             totalParam['cmrPath'] = './furball/cfgs-video.json'
         renderSet(None, totalParam, list(range(0, 360)))
