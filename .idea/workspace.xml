@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1cd9d468-d039-47d1-8afd-d808616061e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3gaussian-ae/gaussian_renderer/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/3gaussian-ae/gaussian_renderer/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/3gaussian-ae/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/3gaussian-ae/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734337573603</updated>
       <workItem from="1734337575029" duration="54639000" />
-      <workItem from="1735541834059" duration="26927000" />
+      <workItem from="1735541834059" duration="27678000" />
     </task>
     <servers />
   </component>
@@ -132,6 +131,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/code$cameraGenMy.coverage" NAME="cameraGenMy Coverage Results" MODIFIED="1734876135711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/1camera generation" />
     <SUITE FILE_PATH="coverage/code$initPointMy.coverage" NAME="initPointMy Coverage Results" MODIFIED="1735022046684" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2dataset generation" />
-    <SUITE FILE_PATH="coverage/code$train.coverage" NAME="train Coverage Results" MODIFIED="1736257024437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3gaussian-ae" />
+    <SUITE FILE_PATH="coverage/code$train.coverage" NAME="train Coverage Results" MODIFIED="1736329887527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3gaussian-ae" />
   </component>
 </project>

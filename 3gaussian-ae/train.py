@@ -90,7 +90,7 @@ optParam = Param({
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
     'densify_from_iter' : 1000, #1000,
-    'densify_until_iter' : 100000, #4_000,
+    'densify_until_iter' : 18000, #4_000,
     'opacity_thres' : 0.005, #0.005, # 0.008 #0.05
     'densify_grad_threshold' :0.00016, # 0.00016 # 0.0002
     'random_background' : False

@@ -1,5 +1,8 @@
 shtdata/*
 */furball/*
-*/submodules/*
+*/build*/*
 */*pycache*/*
 */tb/*
+*pyd*
+*exp*
+*obj*
