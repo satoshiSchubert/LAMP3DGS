@@ -180,7 +180,18 @@ def render_multichannel(
     poses = pc.get_xyz
     
     tempShape = (poses.shape[0], 4) # rgba + ? features
-    features = pc.get_extra
+    #features = pc.get_extra
+
+    # input_ts = torch.cat([
+    #     torch.zeros(
+    #         tempShape,
+    #         dtype=poses.dtype,
+    #         layout=poses.layout,
+    #         device=poses.device
+    #     ),
+    #     features,
+    #     poses],
+    #     dim=-1)
 
     input_ts = torch.cat([
         torch.zeros(
@@ -189,7 +200,6 @@ def render_multichannel(
             layout=poses.layout,
             device=poses.device
         ),
-        features,
         poses],
         dim=-1)
     

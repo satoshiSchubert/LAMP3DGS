@@ -85,22 +85,22 @@ optParam = Param({
     'opacity_lr' : 0.05,
     'scaling_lr' : 0.005,
     'rotation_lr' : 0.001,
-    'percent_dense' : 0.01, # 0.0006 #0.001 #0.01,
+    'percent_dense' : 0.0006, # 0.0006 #0.001 #0.01,
     'lambda_dssim' : 0.2,
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
-    'densify_from_iter' : 3_000, #500,
-    'densify_until_iter' : 6_000, #15_000,
-    'opacity_thres' : 0.05, #0.005, # 0.008 #0.05
-    'densify_grad_threshold' : 0.0002, # 0.00016 # 0.0002
+    'densify_from_iter' : 1000, #1000,
+    'densify_until_iter' : 100000, #4_000,
+    'opacity_thres' : 0.005, #0.005, # 0.008 #0.05
+    'densify_grad_threshold' :0.00016, # 0.00016 # 0.0002
     'random_background' : False
 })
 trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
-    'maxIter' : 60_000, #60_000, #30_000,
-    'savePer' : 2_000,
-    'trackPer' : 10_000,
+    'maxIter' : 600000, #60_000, #30_000,
+    'savePer' : 2000,
+    'trackPer' : 10000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
     'initFile' : './furball/point_cloud.ply', #'./furball/pc/{}_pc_30000.ply'.format(trainVersion),
@@ -653,7 +653,6 @@ class Scene:
 
         starter, ender, splatender, aestarter, aeender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 
-
         res = (self.camera[id].width, self.camera[id].height)
         global bgImg
         if bgImg is None:
@@ -677,13 +676,15 @@ class Scene:
         ).T.reshape(res[1], res[0], 3).permute(2, 0, 1)
 
         # senrgb
-        itemp = torch.vstack((img[3:36,:,:], rays_d, lightDir))
+        #itemp = torch.vstack((img[3:36,:,:], rays_d, lightDir))
+        itemp = img[0:4, :, :]
         itemp.unsqueeze_(0)
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # ae
         aestarter.record()
-        imgOutput = self.aeModel(imgInput)
+        #imgOutput = self.aeModel(imgInput)
+        imgOutput = imgInput
         aeender.record()
         torch.cuda.synchronize()
 
@@ -692,7 +693,7 @@ class Scene:
         #imgOutput = t.cat((imgOutput, img[3:4]))
         #imgOutput = imgOutput.permute(1, 2, 0)
         # geo
-        geoOutput = img[36:39, :, :].permute(1,2,0)
+        geoOutput = img[4:7, :, :].permute(1,2,0)
 
         ender.record()
         torch.cuda.synchronize()
