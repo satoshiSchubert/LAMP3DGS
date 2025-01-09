@@ -90,8 +90,8 @@ optParam = Param({
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
     'densify_from_iter' : 1000, #1000,
-    'densify_until_iter' : 18000, #4_000,
-    'opacity_thres' : 0.005, #0.005, # 0.008 #0.05
+    'densify_until_iter' : 10000, #4_000,
+    'opacity_thres' : 0.005, #0.005, # 0.008 #0.056q    A
     'densify_grad_threshold' :0.00016, # 0.00016 # 0.0002
     'random_background' : False
 })
@@ -99,7 +99,7 @@ trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
     'maxIter' : 600000, #60_000, #30_000,
-    'savePer' : 2000,
+    'savePer' : 8000,
     'trackPer' : 10000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
