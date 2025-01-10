@@ -99,7 +99,7 @@ trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
     'maxIter' : 600000, #60_000, #30_000,
-    'savePer' : 8000,
+    'savePer' : 10000,
     'trackPer' : 10000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
@@ -109,7 +109,7 @@ trainParam = Param({
 runtimeParam = Param({
     'pipeline' : 'relighting',
     'geoloss' : True,
-    'geolossUntil' : 100_000,
+    'geolossUntil' : 100000,
 
     'cmrPath' : './furball/cfgs.json',
     'dsName' : 'gt-2100',
@@ -537,7 +537,7 @@ class Scene:
             return rpkg, imgOutput
 
         # light information
-        lightDir = torch.tensor(self.camera[id].lightDir, dtype=t.float32, device=tdev).reshape(-1,1,1).repeat(1, img.shape[1], img.shape[2])
+        #lightDir = torch.tensor(self.camera[id].lightDir, dtype=t.float32, device=tdev).reshape(-1,1,1).repeat(1, img.shape[1], img.shape[2])
         # pe
         #lightDir = torch.zeros((4,3,2), dtype=t.float32)
         #freq = [np.pi * 2**0, np.pi * 2**1, np.pi * 2**2, np.pi * 2**3]
@@ -553,15 +553,17 @@ class Scene:
             pixelCamera.reshape(-1,3).T
         ).T.reshape(res[1], res[0], 3).permute(2, 0, 1)
 
-        itemp = torch.vstack((img[0:36,:,:], rays_d, lightDir))
+        #itemp = torch.vstack((img[0:36,:,:], rays_d, lightDir))
+        itemp = img[0:3, :, :]
         itemp.unsqueeze_(0)
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # no rgb
-        imgInput = imgInput[:,:,:,3:36]
+        #imgInput = imgInput[:,:,:,3:36]
 
         # ae
-        imgOutput = self.aeModel(imgInput)
+        #imgOutput = self.aeModel(imgInput)
+        imgOutput = imgInput
         imgOutput.squeeze_(0)
         if kargs.dsType == 'env': # need to concat alpha behind rgb
             imgOutput = imgOutput.permute(2, 0, 1)
@@ -677,7 +679,7 @@ class Scene:
 
         # senrgb
         #itemp = torch.vstack((img[3:36,:,:], rays_d, lightDir))
-        itemp = img[0:4, :, :]
+        itemp = img[0:3, :, :]
         itemp.unsqueeze_(0)
         imgInput = itemp.permute(0, 2, 3, 1)
 
@@ -718,6 +720,7 @@ class Scene:
         kargs = self.params
         outTemp = imgOut.unsqueeze(0).permute(0, 3, 1, 2)
         gt = rawGT[0:4,:,:].to(tdev).unsqueeze(0)
+        colorChann = outTemp.shape[1]
         Ll1 = l1_loss(outTemp.unsqueeze(0), gt)
         ssiml = ssim(outTemp, gt)
         loss = (1.0 - kargs.lambda_dssim) * Ll1 + kargs.lambda_dssim * (1.0 - ssiml)
