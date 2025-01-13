@@ -6,7 +6,94 @@
   <component name="ChangeListManager">
     <list default="true" id="1cd9d468-d039-47d1-8afd-d808616061e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734167631.DESKTOP-QJO247C.39756.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734167735.DESKTOP-QJO247C.20716.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734167765.DESKTOP-QJO247C.36276.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734167825.DESKTOP-QJO247C.21056.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734167974.DESKTOP-QJO247C.33868.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168016.DESKTOP-QJO247C.37664.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168385.DESKTOP-QJO247C.20516.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168396.DESKTOP-QJO247C.36788.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168624.DESKTOP-QJO247C.39640.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168642.DESKTOP-QJO247C.26260.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734168741.DESKTOP-QJO247C.14464.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734256341.DESKTOP-QJO247C.23316.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734256796.DESKTOP-QJO247C.17128.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734337640.DESKTOP-QJO247C.35476.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734337836.DESKTOP-QJO247C.20204.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734337880.DESKTOP-QJO247C.31512.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734346612.DESKTOP-QJO247C.36728.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734525220.DESKTOP-QJO247C.45332.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734526683.DESKTOP-QJO247C.51248.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734675876.DESKTOP-QJO247C.36804.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678172.DESKTOP-QJO247C.45336.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678361.DESKTOP-QJO247C.53372.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678724.DESKTOP-QJO247C.36556.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678765.DESKTOP-QJO247C.51900.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678802.DESKTOP-QJO247C.44784.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734678919.DESKTOP-QJO247C.46352.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734679863.DESKTOP-QJO247C.41640.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734680268.DESKTOP-QJO247C.18140.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734683716.DESKTOP-QJO247C.17588.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734683789.DESKTOP-QJO247C.24752.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734683975.DESKTOP-QJO247C.42608.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734684274.DESKTOP-QJO247C.38164.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734684506.DESKTOP-QJO247C.35608.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734684575.DESKTOP-QJO247C.7292.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734764968.DESKTOP-QJO247C.53080.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734766991.DESKTOP-QJO247C.42968.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734767535.DESKTOP-QJO247C.44940.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734767680.DESKTOP-QJO247C.39324.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734768449.DESKTOP-QJO247C.42532.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734768729.DESKTOP-QJO247C.51836.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734768810.DESKTOP-QJO247C.54704.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734769414.DESKTOP-QJO247C.48360.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734771104.DESKTOP-QJO247C.39644.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734774168.DESKTOP-QJO247C.43524.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734855388.DESKTOP-QJO247C.54816.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734855759.DESKTOP-QJO247C.34112.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734868891.DESKTOP-QJO247C.35640.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734868966.DESKTOP-QJO247C.41896.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734869086.DESKTOP-QJO247C.38396.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734869488.DESKTOP-QJO247C.40568.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734869776.DESKTOP-QJO247C.43144.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734869807.DESKTOP-QJO247C.29880.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734869914.DESKTOP-QJO247C.49580.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734870136.DESKTOP-QJO247C.48608.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734870642.DESKTOP-QJO247C.51368.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734871122.DESKTOP-QJO247C.32096.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734872341.DESKTOP-QJO247C.50604.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734872904.DESKTOP-QJO247C.53836.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734872943.DESKTOP-QJO247C.54624.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734872976.DESKTOP-QJO247C.41228.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734873089.DESKTOP-QJO247C.34100.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734873422.DESKTOP-QJO247C.54572.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734873657.DESKTOP-QJO247C.25728.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734873876.DESKTOP-QJO247C.36596.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874033.DESKTOP-QJO247C.9988.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874266.DESKTOP-QJO247C.32568.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874383.DESKTOP-QJO247C.50532.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874519.DESKTOP-QJO247C.47948.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874593.DESKTOP-QJO247C.43248.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734874765.DESKTOP-QJO247C.44272.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734875060.DESKTOP-QJO247C.36540.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734875797.DESKTOP-QJO247C.14396.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734876450.DESKTOP-QJO247C.3360.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734876853.DESKTOP-QJO247C.39152.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734876942.DESKTOP-QJO247C.50648.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734876994.DESKTOP-QJO247C.8200.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734877466.DESKTOP-QJO247C.34412.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734877578.DESKTOP-QJO247C.52444.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734877686.DESKTOP-QJO247C.2184.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734877745.DESKTOP-QJO247C.51272.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734877853.DESKTOP-QJO247C.52656.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1734878113.DESKTOP-QJO247C.36432.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1735022111.DESKTOP-QJO247C.8580.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1735022150.DESKTOP-QJO247C.36100.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1735022158.DESKTOP-QJO247C.50080.0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3gaussian-ae/tb/20241214shtcase1/events.out.tfevents.1735022234.DESKTOP-QJO247C.40416.0" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/3gaussian-ae/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/3gaussian-ae/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +144,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3gaussian-ae/train.py" />
-      <option name="PARAMETERS" value="--device 0 --cmrPath ./furball/cfgs-case.json --dsName gt-case --dsType directional --tag 20250108v2shtcase1" />
+      <option name="PARAMETERS" value="--device 0 --cmrPath ./furball/cfgs-case.json --dsName gt-case --dsType directional --tag 0113v1" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -75,7 +162,7 @@
       <option name="presentableId" value="Default" />
       <updated>1734337573603</updated>
       <workItem from="1734337575029" duration="54639000" />
-      <workItem from="1735541834059" duration="32102000" />
+      <workItem from="1735541834059" duration="47190000" />
     </task>
     <servers />
   </component>
@@ -97,7 +184,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/3gaussian-ae/train.py</url>
-          <line>510</line>
+          <line>521</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -107,23 +194,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/3gaussian-ae/train.py</url>
-          <line>638</line>
+          <line>651</line>
           <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/3gaussian-ae/train.py</url>
-          <line>695</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/3gaussian-ae/train.py</url>
-          <line>690</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/3gaussian-ae/train.py</url>
-          <line>823</line>
-          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -131,6 +203,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/code$cameraGenMy.coverage" NAME="cameraGenMy Coverage Results" MODIFIED="1734876135711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/1camera generation" />
     <SUITE FILE_PATH="coverage/code$initPointMy.coverage" NAME="initPointMy Coverage Results" MODIFIED="1735022046684" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2dataset generation" />
-    <SUITE FILE_PATH="coverage/code$train.coverage" NAME="train Coverage Results" MODIFIED="1736351642450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3gaussian-ae" />
+    <SUITE FILE_PATH="coverage/code$train.coverage" NAME="train Coverage Results" MODIFIED="1736752801283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3gaussian-ae" />
   </component>
 </project>

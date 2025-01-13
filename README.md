@@ -1,17 +1,27 @@
-Gaussian AE 代码
+Lamp3DGS - 3D Gaussian Sphere
 ---
 
 # 1. 相机视角生成
 
-参考文件夹：*1. camera generation*内的cameraGen.py，核心是围绕center以球坐标的形式生成视角和方向光/环境贴图旋转角。
+参考文件：*1. camera generation*内的cameraGenMy.py，核心是读取pickle文件中的position信息，根据格式要求生成对应的json文件。
 
-生成的json文件在result文件夹内。
+生成的json文件路径为:
+
+./3gaussian-ae/furball/cfgs-case.json
 
 # 2. Ground Truth数据集和初始点云生成
 
-参考文件夹：*2. dataset generation*内的datasetGen.py和initPoint.py
+参考文件夹：*2. dataset generation*内的initPointMy.py
 
-initPoint读取毛发文件并选其中1/3的曲线构建为高斯球，datasetGen调用mitsuba，根据步骤一的相机视角画ground truth和gbuffer，并去噪。
+initPointMy中基于DFS算法根据pickle文件中的world pos buffer生成初始点云point_cloud.ply，并解析pickle得到exr数据集并存放至./3gaussian-ae/furball/中。
+
+可以调节的参数：
+
+```python
+l = 2 # 缩放到采样分辨率后的采样距离，表示采样点到给定点的像素距离，后续将连接这两个点作为椭球体的长边
+
+n = 2 # 每一frame采样的高斯球的个数, 所以获得的总高斯球个数为 n*frame_num
+```
 
 # 3. 3D GS训练
 
@@ -28,6 +38,8 @@ cd ./submodules/diff-gaussian-rasterization_extend
 # 过高版本(>=13)的gcc会和cuda冲突，无法编译
 export CC=/usr/bin/gcc-12
 python setup.py install
+
+# 推荐在visual studio 的prompt环境中激活conda并install
 ```
 
 命令行参数参考train.py的parse_args，不过通常改全局变量runtimeParam会更快一点。

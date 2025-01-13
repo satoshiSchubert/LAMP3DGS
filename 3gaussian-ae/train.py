@@ -70,6 +70,17 @@ class Param:
     def update(self, ls):
         self.param.update(ls)
 
+    def save_to_json(self, filename):
+        """将参数保存到 JSON 文件"""
+        with open(filename, 'w') as json_file:
+            json.dump(self.param, json_file, indent=4, default=self._default_json_serialization)
+
+    def _default_json_serialization(self, obj):
+        """处理不能直接序列化的对象"""
+        if isinstance(obj, torch.Tensor):
+            return obj.tolist()  # 将 Tensor 转换为列表
+        raise TypeError(f"Type {type(obj)} not serializable")
+
 pipeParam = Param({
     'convert_SHs_python' : False,
     'compute_cov3D_python' : False,
@@ -90,7 +101,7 @@ optParam = Param({
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
     'densify_from_iter' : 1000, #1000,
-    'densify_until_iter' : 10000, #4_000,
+    'densify_until_iter' : 20000, #4_000,
     'opacity_thres' : 0.005, #0.005, # 0.008 #0.056q    A
     'densify_grad_threshold' :0.00016, # 0.00016 # 0.0002
     'random_background' : False
@@ -98,9 +109,9 @@ optParam = Param({
 trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
-    'maxIter' : 600000, #60_000, #30_000,
-    'savePer' : 10000,
-    'trackPer' : 10000,
+    'maxIter' : 1000000, #60_000, #30_000,
+    'savePer' : 20000,
+    'trackPer' : 20000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
     'initFile' : './furball/point_cloud.ply', #'./furball/pc/{}_pc_30000.ply'.format(trainVersion),
@@ -109,7 +120,7 @@ trainParam = Param({
 runtimeParam = Param({
     'pipeline' : 'relighting',
     'geoloss' : True,
-    'geolossUntil' : 100000,
+    'geolossUntil' : 300000,
 
     'cmrPath' : './furball/cfgs.json',
     'dsName' : 'gt-2100',
@@ -748,7 +759,7 @@ class Scene:
         return loss
 
     import pyexr
-    def startTraining(self, kargs, vis_it=100):
+    def startTraining(self, kargs, vis_it=20000, threshoud = 200000):
         tb_writer = None
         if TENSORBOARD_FOUND:
             tb_writer = SummaryWriter('./tb/'+totalParam.tag)
@@ -787,9 +798,9 @@ class Scene:
                 rpkg, imgOutput, geoOutput = self.renderWithExplicitGeo(
                     id, kargs, device=tdev
                 )
-                if(iter%vis_it==0):
-                    pyexr.write(f"./furball/render/{id}_imgOutput.exr",imgOutput.to('cpu').detach().numpy()[...,0:3])
-                    pyexr.write(f"./furball/render/{id}_geoOutput.exr", geoOutput.to('cpu').detach().numpy()[...,0:3])
+                if(iter >= threshoud and iter%vis_it==0):
+                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_imgOutput.exr",imgOutput.to('cpu').detach().numpy()[...,0:3])
+                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_geoOutput.exr", geoOutput.to('cpu').detach().numpy()[...,0:3])
 
                 tempImg, vpt, vf, radii = rpkg['render'], rpkg['viewspace_points'], rpkg['visibility_filter'], rpkg['radii']
                 if kargs.dsType == 'env':
@@ -804,8 +815,8 @@ class Scene:
                     gtc = torch.cat((gt, pos))
                 loss, comp = self.trainLossRelightingGeo(imgOutput, geoOutput, gtc)
 
-                if (iter % vis_it == 0):
-                    pyexr.write(f"./furball/render/{id}_gt.exr", gt.permute((1,2,0)).to('cpu').detach().numpy())
+                if (iter >= threshoud and iter % vis_it == 0):
+                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_gt.exr", gt.permute((1,2,0)).to('cpu').detach().numpy())
 
             else:
                 rpkg, imgOutput = self.render(id, kargs, device=tdev)
@@ -883,11 +894,11 @@ class Scene:
                 if iter % kargs.trackPer == 0:
                     trackId = kargs.trackId
                     if trackId is not None:
-                        trackName1 = './furball/render/{}-{}-loss-{:.3}-track-{}{}.exr'.format(
-                            trainVersion, iter, ema_loss_for_log, trackId, ''
+                        trackName1 = './furball/render/{}/track/{}-{}-loss-{:.3}-track-{}{}.exr'.format(
+                            totalParam.tag,trainVersion, iter, ema_loss_for_log, trackId, ''
                         )
-                        trackName2 = './furball/render/{}-{}-loss-{:.3}-track-{}{}.exr'.format(
-                            trainVersion, iter, ema_loss_for_log, trackId, '-nnpos'
+                        trackName2 = './furball/render/{}/track/{}-{}-loss-{:.3}-track-{}{}.exr'.format(
+                            totalParam.tag,trainVersion, iter, ema_loss_for_log, trackId, '-nnpos'
                         )
 
                         if kargs.geoloss:
@@ -940,13 +951,16 @@ def renderSet(scene, kargs : Param, renderList = None):
 
         trainsize = 200 # 2000 , 0-trainsize 为训练集的测试样本
         testsize = 256 # 2100 ， trainsize-testsize 为测试集的测试样本
-
+        starter_train, ender_train = torch.cuda.Event(enable_timing=True), torch.cuda.Event(
+            enable_timing=True)
+        starter_test, ender_test = torch.cuda.Event(enable_timing=True), torch.cuda.Event(
+            enable_timing=True)
         if renderList is None:
             print('Train Set Now')
             pb = tqdm(range(1, trainsize + 1), desc='Progress', dynamic_ncols=True)
 
             # 测试渲染时间
-            start = time.time()
+            starter_train.record()
             for iter in range(0, trainsize):
                 rpkg, img, geo = scene.renderWithExplicitGeo(iter, kargs, device=tdev)
                 if kargs.dsType == 'env':
@@ -956,14 +970,14 @@ def renderSet(scene, kargs : Param, renderList = None):
                 #imgLen = img.shape[2]
                 #saveExr(img.cpu().numpy(), './furball/render/{}-train-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
                 pb.update(1)
-            end = time.time()
-            print('Train Set Time per iter: ', (end - start)/ trainsize)
+            ender_train.record()
+            print(f'Train Set Time per iter: {starter_train.elapsed_time(ender_train)/trainsize} ')
             pb.close()
 
             print('Test Set Now')
             pb = tqdm(range(1, 100 + 1), desc='Progress', dynamic_ncols=True)
             scene.aeModel.eval()
-            start = time.time()
+            starter_test.record()
             for iter in range(trainsize, testsize):
                 rpkg, img, geo = scene.renderWithExplicitGeo(iter, kargs, device=tdev)
                 if kargs.dsType == 'env':
@@ -972,8 +986,8 @@ def renderSet(scene, kargs : Param, renderList = None):
                 #imgLen = img.shape[2]
                 #saveExr(img.cpu().numpy()[:,:,:], './furball/render/{}-test-{}.exr'.format(trainVersion, iter), datasetChannels[0:imgLen])
                 pb.update(1)
-            end = time.time()
-            print('Test Set Time per iter: ', (end - start) / (testsize - trainsize))
+            ender_test.record()
+            print(f'Test Set Time per iter: {starter_test.elapsed_time(ender_test)/(testsize - trainsize)} ')
             pb.close()
         else:
             print('Custom Render List')
@@ -1028,7 +1042,7 @@ def parse_args():
     parser.add_argument('--cmrPath', type=str)
     parser.add_argument('--skipTrain', action='store_true')
     parser.add_argument('--skipResult', action='store_true')
-    parser.add_argument('--skipVideo', action='store_true')
+    parser.add_argument('--skipVideo', action='store_false')
     parser.add_argument('--skipEval', action='store_true')
     parser.add_argument('--initFile', type=str)
     parser.add_argument('--checkpoint', type=str)
@@ -1066,6 +1080,14 @@ if __name__ == '__main__':
     totalParam.update(args_dict_valid)
     initEnv(totalParam)
 
+    # 新建文件夹
+    if not os.path.exists(f"./furball/render/{totalParam.tag}/track/"):
+        os.makedirs(f"./furball/render/{totalParam.tag}/track/")
+    if not os.path.exists(f"./furball/render/{totalParam.tag}/logs/"):
+        os.makedirs(f"./furball/render/{totalParam.tag}/logs/")
+    # 保存totalParam到./furball/render/{totalParam.tag}/文件夹下，保存成json
+    totalParam.save_to_json(f"./furball/render/{totalParam.tag}/totalParam.json")
+
     print('TrainVersion: {}'.format(trainVersion))
     print('Device Id: {}'.format(gpuid))
     train(totalParam)
@@ -1081,7 +1103,7 @@ if __name__ == '__main__':
         print(os.system(seq2video.format(trainVersion, trainVersion)))
 
     if not totalParam.skipEval:
-        rdl = ['./furball/render/{}-train-{}.exr'.format(trainVersion, i) for i in range(0, 2000)] + \
-                ['./furball/render/{}-test-{}.exr'.format(trainVersion, i) for i in range(2000, 2100)]
+        rdl = ['./furball/render/{}/logs/{}-train-{}.exr'.format(totalParam.tag,trainVersion, i) for i in range(0, 2000)] + \
+                ['./furball/render/{}/logs/{}-test-{}.exr'.format(totalParam.tag, trainVersion, i) for i in range(2000, 2100)]
         gtl = ['./furball/{}/furball-{}-denoised.exr'.format(totalParam.tryGet('dsName', 'gt'), i) for i in range(0, 2100)]
         evaluate(rdl, gtl, outPath=trainVersion+'.txt',dev=tdev)
