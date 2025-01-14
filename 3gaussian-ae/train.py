@@ -96,22 +96,22 @@ optParam = Param({
     'opacity_lr' : 0.05,
     'scaling_lr' : 0.005,
     'rotation_lr' : 0.001,
-    'percent_dense' : 0.0006, # 0.0006 #0.001 #0.01,
+    'percent_dense' : 0.01, # 0.0006 #0.001 #0.01,
     'lambda_dssim' : 0.2,
     'densification_interval' : 100, #100,
     'opacity_reset_interval' : 3000,
     'densify_from_iter' : 1000, #1000,
-    'densify_until_iter' : 20000, #4_000,
-    'opacity_thres' : 0.005, #0.005, # 0.008 #0.056q    A
-    'densify_grad_threshold' :0.00016, # 0.00016 # 0.0002
+    'densify_until_iter' : 4000, #4_000,
+    'opacity_thres' : 0.05, #0.05, # 0.008 #0.05
+    'densify_grad_threshold' :0.0002, # 0.00016 # 0.0002
     'random_background' : False
 })
 trainParam = Param({
     'bg_color' : torch.tensor([0,0,0], dtype=torch.float32, device=tdev),
     'firstIter' : 1,
-    'maxIter' : 1000000, #60_000, #30_000,
-    'savePer' : 20000,
-    'trackPer' : 20000,
+    'maxIter' : 50000, #60_000, #30_000,
+    'savePer' : 4000,
+    'trackPer' : 2000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
     'initFile' : './furball/point_cloud.ply', #'./furball/pc/{}_pc_30000.ply'.format(trainVersion),
@@ -120,7 +120,7 @@ trainParam = Param({
 runtimeParam = Param({
     'pipeline' : 'relighting',
     'geoloss' : True,
-    'geolossUntil' : 300000,
+    'geolossUntil' : 100000, # 叠加ae模式下，不需要进入geolossUntil模式，因此把epoch数量设置的比较大，参考jkw代码
 
     'cmrPath' : './furball/cfgs.json',
     'dsName' : 'gt-2100',
@@ -548,15 +548,15 @@ class Scene:
             return rpkg, imgOutput
 
         # light information
-        #lightDir = torch.tensor(self.camera[id].lightDir, dtype=t.float32, device=tdev).reshape(-1,1,1).repeat(1, img.shape[1], img.shape[2])
+        lightDir = torch.tensor(self.camera[id].lightDir, dtype=t.float32, device=tdev).reshape(-1,1,1).repeat(1, img.shape[1], img.shape[2])
         # pe
-        #lightDir = torch.zeros((4,3,2), dtype=t.float32)
-        #freq = [np.pi * 2**0, np.pi * 2**1, np.pi * 2**2, np.pi * 2**3]
-        #for i in range(4):
+        # lightDir = torch.zeros((4,3,2), dtype=t.float32)
+        # freq = [np.pi * 2**0, np.pi * 2**1, np.pi * 2**2, np.pi * 2**3]
+        # for i in range(4):
         #    for j in range(3):
         #        lightDir[i, j, 0] = np.sin(freq[i] * self.camera[id].lightDir[j])
         #        lightDir[i, j, 1] = np.cos(freq[i] * self.camera[id].lightDir[j])
-        #lightDir = lightDir.to(tdev).reshape(-1, 1, 1).repeat(1, img.shape[1], img.shape[2])
+        # lightDir = lightDir.to(tdev).reshape(-1, 1, 1).repeat(1, img.shape[1], img.shape[2])
 
         global pixelCamera
         rays_d = (
@@ -564,17 +564,16 @@ class Scene:
             pixelCamera.reshape(-1,3).T
         ).T.reshape(res[1], res[0], 3).permute(2, 0, 1)
 
-        #itemp = torch.vstack((img[0:36,:,:], rays_d, lightDir))
-        itemp = img[0:3, :, :]
+        itemp = torch.vstack((img[0:36,:,:], rays_d, lightDir))
+        #itemp = img[0:3, :, :]
         itemp.unsqueeze_(0)
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # no rgb
-        #imgInput = imgInput[:,:,:,3:36]
+        imgInput = imgInput[:,:,:,3:36]
 
         # ae
-        #imgOutput = self.aeModel(imgInput)
-        imgOutput = imgInput
+        imgOutput = self.aeModel(imgInput)
         imgOutput.squeeze_(0)
         if kargs.dsType == 'env': # need to concat alpha behind rgb
             imgOutput = imgOutput.permute(2, 0, 1)
@@ -689,15 +688,14 @@ class Scene:
         ).T.reshape(res[1], res[0], 3).permute(2, 0, 1)
 
         # senrgb
-        #itemp = torch.vstack((img[3:36,:,:], rays_d, lightDir))
-        itemp = img[0:3, :, :]
+        itemp = torch.vstack((img[3:36,:,:], rays_d, lightDir))
         itemp.unsqueeze_(0)
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # ae
         aestarter.record()
-        #imgOutput = self.aeModel(imgInput)
-        imgOutput = imgInput
+        imgOutput = self.aeModel(imgInput)
+        #imgOutput = imgInput
         aeender.record()
         torch.cuda.synchronize()
 
@@ -706,7 +704,7 @@ class Scene:
         #imgOutput = t.cat((imgOutput, img[3:4]))
         #imgOutput = imgOutput.permute(1, 2, 0)
         # geo
-        geoOutput = img[4:7, :, :].permute(1,2,0)
+        geoOutput = img[36:39, :, :].permute(1,2,0)
 
         ender.record()
         torch.cuda.synchronize()
@@ -759,7 +757,7 @@ class Scene:
         return loss
 
     import pyexr
-    def startTraining(self, kargs, vis_it=20000, threshoud = 200000):
+    def startTraining(self, kargs, vis_it=20000):
         tb_writer = None
         if TENSORBOARD_FOUND:
             tb_writer = SummaryWriter('./tb/'+totalParam.tag)
@@ -798,7 +796,7 @@ class Scene:
                 rpkg, imgOutput, geoOutput = self.renderWithExplicitGeo(
                     id, kargs, device=tdev
                 )
-                if(iter >= threshoud and iter%vis_it==0):
+                if(iter%vis_it==0):
                     pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_imgOutput.exr",imgOutput.to('cpu').detach().numpy()[...,0:3])
                     pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_geoOutput.exr", geoOutput.to('cpu').detach().numpy()[...,0:3])
 
@@ -815,7 +813,7 @@ class Scene:
                     gtc = torch.cat((gt, pos))
                 loss, comp = self.trainLossRelightingGeo(imgOutput, geoOutput, gtc)
 
-                if (iter >= threshoud and iter % vis_it == 0):
+                if (iter % vis_it == 0):
                     pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_gt.exr", gt.permute((1,2,0)).to('cpu').detach().numpy())
 
             else:
