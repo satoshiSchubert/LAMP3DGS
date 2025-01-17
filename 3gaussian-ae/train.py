@@ -114,7 +114,7 @@ trainParam = Param({
     'trackPer' : 20000,
     'trackId' : 0,
     'checkpoint' : None, #'./furball/pc/{}_checkpoint_30000.pth'.format(trainVersion),
-    'initFile' : './furball/point_cloud.ply', #'./furball/pc/{}_pc_30000.ply'.format(trainVersion),
+    'initFile' : './furball/point_cloud2.ply', #'./furball/pc/{}_pc_30000.ply'.format(trainVersion),
     'batchSize' : 1
 })
 runtimeParam = Param({
@@ -473,17 +473,19 @@ class Scene:
 
         if datasets is not None:
             trainSize = params.trainSize
+            trainSize = 256
             testSize = params.testSize
+            testSize = 256
 
             if params.dsType == 'directional':
                 self.datasets = datasets[0] # raw
                 self.denoisedSets = datasets[1] # denoised
                 self.trainSet = self.denoisedSets[0:trainSize]
-                self.testSet = self.denoisedSets[trainSize:trainSize+testSize]
+                self.testSet = self.denoisedSets[0:testSize]
             elif params.dsType == 'env' or params.dsType == 'enva':
                 self.datasets = datasets
                 self.trainSet = self.datasets[0:trainSize]
-                self.testSet = self.datasets[trainSize:trainSize+testSize]
+                self.testSet = self.datasets[0:testSize]
             print('Dataset Length: {} ({}+{})'.format(len(self.trainSet)+len(self.testSet), len(self.trainSet), len(self.testSet)))
         else:
             print('Warning: Empty Datset!')
@@ -667,7 +669,7 @@ class Scene:
         starter, ender, splatender, aestarter, aeender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 
         res = (self.camera[id].width, self.camera[id].height)
-        global bgImg
+        global bgImg #
         if bgImg is None:
             bgImg = torch.zeros((4+32+3, res[1], res[0]), device=tdev)
 
@@ -743,11 +745,13 @@ class Scene:
         geoOutTemp = geoOut.unsqueeze(0).permute(0, 3, 1, 2)
         gt = rawGT.to(tdev).unsqueeze(0)
         colorChann = outTemp.shape[1]
+        gt[:, 0:colorChann] = torch.log(gt[:, 0:colorChann]+ 1)
         Ll1 = l1_loss(outTemp, gt[:, 0:colorChann])
         ssiml = ssim(outTemp, gt[:, 0:colorChann])
-        loss = (1.0 - kargs.lambda_dssim) * Ll1 + kargs.lambda_dssim * (1.0 - ssiml)
+        loss = 1 * Ll1 + kargs.lambda_dssim * 0
         loss2 = l1_loss(geoOutTemp, gt[:,-3:])
         ansLoss = loss * 0.8 + loss2 * 0.2
+
         return ansLoss, { 'Ll1' : Ll1, 'SSIM' : ssiml, 'Geoloss' : loss2}
 
     def trainLossLegacy(self, imgOut, rawGT):
@@ -759,7 +763,7 @@ class Scene:
         return loss
 
     import pyexr
-    def startTraining(self, kargs, vis_it=20000, threshoud = 200000):
+    def startTraining(self, kargs, vis_it=1000, threshoud = 200000):
         tb_writer = None
         if TENSORBOARD_FOUND:
             tb_writer = SummaryWriter('./tb/'+totalParam.tag)
@@ -777,7 +781,7 @@ class Scene:
         ema_loss_for_log = 0.0
 
         assert kargs.batchSize == 1
-
+        cnt = 0
         for iter in range(firstIter, maxIter + 1):
             self.gaussian.update_learning_rate(iter)
             if iter % 1000 == 0:
@@ -786,8 +790,8 @@ class Scene:
             if not trainStack or len(trainStack) == 0:
                 trainStack = self.trainSet.copy()
             randItem = random.randint(0, len(trainStack)-1)
-            randItem = 0
-            id, groundTruth = trainStack.pop(randItem)
+            id, groundTruth = trainStack[cnt%256]
+            cnt = cnt + 1
             tempImg, vpt, vf, radii = (None,None,None,None)
             if kargs.pipeline == 'legacy':
                 rpkg, imgOutput = self.render(id, kargs, device=tdev, relighting=False)
@@ -798,9 +802,11 @@ class Scene:
                 rpkg, imgOutput, geoOutput = self.renderWithExplicitGeo(
                     id, kargs, device=tdev
                 )
-                if(iter >= threshoud and iter%vis_it==0):
-                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_imgOutput.exr",imgOutput.to('cpu').detach().numpy()[...,0:3])
+                if(iter%vis_it==0 or iter<10):
+                    expimgOutput = torch.exp(imgOutput) - 1
+                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_imgOutput.exr",expimgOutput.to('cpu').detach().numpy()[...,0:3])
                     pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_geoOutput.exr", geoOutput.to('cpu').detach().numpy()[...,0:3])
+                    pyexr.write(f"./furball/render/{totalParam.tag}/logs/{iter}_gt.exr", groundTruth[0:3,:,:].permute(1,2,0).to('cpu').detach().numpy()[...,0:3])
 
                 tempImg, vpt, vf, radii = rpkg['render'], rpkg['viewspace_points'], rpkg['visibility_filter'], rpkg['radii']
                 if kargs.dsType == 'env':
@@ -978,7 +984,7 @@ def renderSet(scene, kargs : Param, renderList = None):
             pb = tqdm(range(1, 100 + 1), desc='Progress', dynamic_ncols=True)
             scene.aeModel.eval()
             starter_test.record()
-            for iter in range(trainsize, testsize):
+            for iter in range(0, testsize):
                 rpkg, img, geo = scene.renderWithExplicitGeo(iter, kargs, device=tdev)
                 if kargs.dsType == 'env':
                     bgTemp = scene.datasets[iter][1][6:9]

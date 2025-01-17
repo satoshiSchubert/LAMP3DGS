@@ -239,7 +239,7 @@ def sample_gaussians(world_pos, l, n):
     gaussians = np.array(gaussians, dtype=np.float32)
     return gaussians
 
-def exportExr(case_pth, target_path = "E:\GraphicsAI\JKWCode\code/3gaussian-ae/furball/gt-case/"):
+def exportExr(case_pth, target_path = r"E:\KeProduct\LAMP3DGS\3gaussian-ae\furball/gt-case/"):
     localData = None
     if case_pth.split(".")[-1] == "gz":
         with gzip.open(case_pth, 'rb') as lf:
@@ -267,7 +267,12 @@ def main_sampling(case_pth):
     else:
         assert False, "Invalid file format."
     world_pos = localData['position'].reshape(-1, 512, 512, 3)
-    world_pos = np.array([cv.resize(frame, (64, 64), interpolation=cv.INTER_LINEAR) for frame in world_pos])
+    pyexr.write("radiance.exr",localData['radiance'][0,0])
+    # for frame in world_pos:
+    #     print(frame.shape)
+    #     frame = np.array(frame).astype(np.float64)
+    #     d = cv.resize(frame, (128, 128), interpolation=cv.INTER_LINEAR)
+    world_pos = np.array([cv.resize(np.array(frame).astype(np.float64), (128, 128), interpolation=cv.INTER_LINEAR) for frame in world_pos])
     # pos scale 100倍
     #world_pos = world_pos # position原始值太小，scale有最小值限制，导致挤成一坨，因此需放大pos
     # 调换y和z匹配3dgs坐标系
@@ -280,9 +285,35 @@ def main_sampling(case_pth):
     all_gaussians = []
     print("total frames:", len(world_pos))
     for i, frame in tqdm(enumerate(world_pos)):
-        gaussians = sample_gaussians(frame, l, n)
-        all_gaussians.append(gaussians)
-        print(f"Frame {i}: {len(gaussians)} Gaussians sampled.")
+        #gaussians = sample_gaussians(frame, l, n)
+        # all_gaussians.append(gaussians)
+        # print(f"Frame {i}: {len(gaussians)} Gaussians sampled.")
+        for x in range(128):
+            for y in range(128):
+                xyz = frame[x,y]
+                if xyz[0] == 0 and xyz[1] == 0 and xyz[2] == 0:
+                    continue
+                #length = 0.1 * np.linalg.norm(1)  # scale一下，不然挤成一坨
+                scs = np.array([0.001 , 0.001 , 0.001], dtype=np.float32)  # 3-channel scale
+                scs = np.log(scs)
+
+                shs = np.zeros((48,), dtype=np.float32)
+                shs[0] = -0.10634723  # 0.47
+                shs[1] = -0.81532877  # 0.27
+                shs[2] = -1.49595105  # 0.078
+
+                ops = np.full((1,), 0.5, dtype=np.float32)
+                ops = inverse_sigmoid(ops)
+                norms = np.zeros((3,), dtype=np.float32)
+
+                rot = np.array([0, 0, 0, 1], dtype=np.float32)
+
+                # # 不做任何操作的四元数的值
+                # rot = np.array([0, 0, 0, 1], dtype=np.float32)
+
+                total = np.hstack((xyz, norms, shs, ops, scs, rot))
+                all_gaussians.append(total)
+
     lf.close()
     all_gaussians = np.array(all_gaussians, dtype=np.float32)
     all_gaussians = all_gaussians.reshape((-1, all_gaussians.shape[-1]))
@@ -297,13 +328,14 @@ def main_sampling(case_pth):
                   'scale_0', 'scale_1', 'scale_2', 'rot_0', 'rot_1', 'rot_2', 'rot_3']
 
     print(all_gaussians[0])
-    savePly(all_gaussians, dtype_full, '../3gaussian-ae/furball/pc/testcase/point_cloud/point_cloud.ply')
-    savePly(all_gaussians, dtype_full, '../3gaussian-ae/furball/point_cloud.ply')
+
+    #savePly(all_gaussians, dtype_full, '../3gaussian-ae/furball/pc/testcase/point_cloud/point_cloud.ply')
+    savePly(all_gaussians, dtype_full, 'point_cloud3.ply')
 
 if __name__ == "__main__":
     pickle_path = "../shtdata/light_pickle/"
     case1_pth = pickle_path + "case1.pkl.gz"
     case2_pth = pickle_path + "case2.pkl.gz"
-    case4_pth = pickle_path + "case4.pkl.zst"
+    case4_pth = pickle_path + "L3D445S265B19ENDP2RSN3IUWJIAULUF3P3WA888.pkl.zst"
     main_sampling(case4_pth)
     exportExr(case4_pth)
