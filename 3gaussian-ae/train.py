@@ -757,7 +757,7 @@ class Scene:
         return loss
 
     import pyexr
-    def startTraining(self, kargs, vis_it=20000):
+    def startTraining(self, kargs, vis_it=1000):
         tb_writer = None
         if TENSORBOARD_FOUND:
             tb_writer = SummaryWriter('./tb/'+totalParam.tag)
