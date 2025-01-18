@@ -666,18 +666,18 @@ class Scene:
 
     def renderWithExplicitGeo(self, id, kargs, device=tdev, **others):
 
-        starter, ender, splatender, aestarter, aeender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
+        #starter, ender, splatender, aestarter, aeender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 
         res = (self.camera[id].width, self.camera[id].height)
         global bgImg #
         if bgImg is None:
             bgImg = torch.zeros((4+32+3, res[1], res[0]), device=tdev)
 
-        starter.record()
+        #starter.record()
 
         rpkg = render_multichannel(self.camera[id], self.gaussian, kargs, bgImg, device=tdev)
 
-        splatender.record()
+        #splatender.record()
         torch.cuda.synchronize()
 
         img, vpt, vf, radii = rpkg['render'], rpkg['viewspace_points'], rpkg['visibility_filter'], rpkg['radii']
@@ -697,11 +697,11 @@ class Scene:
         imgInput = itemp.permute(0, 2, 3, 1)
 
         # ae
-        aestarter.record()
+        #aestarter.record()
         #imgOutput = self.aeModel(imgInput)
         imgOutput = imgInput
-        aeender.record()
-        torch.cuda.synchronize()
+        #aeender.record()
+        #torch.cuda.synchronize()
 
         imgOutput.squeeze_(0)
         #imgOutput = imgOutput.permute(2, 0, 1)
@@ -710,13 +710,13 @@ class Scene:
         # geo
         geoOutput = img[4:7, :, :].permute(1,2,0)
 
-        ender.record()
-        torch.cuda.synchronize()
+        #ender.record()
+        #torch.cuda.synchronize()
 
-        if id%10==0:
-            print(f" id:{id}, frame time: {starter.elapsed_time(ender)} ms, ",
-                  f"splat: {starter.elapsed_time(splatender)} ms,",
-                  f"ae: {aestarter.elapsed_time(aeender)} ms")
+        # if id%10==0:
+        #     print(f" id:{id}, frame time: {starter.elapsed_time(ender)} ms, ",
+        #           f"splat: {starter.elapsed_time(splatender)} ms,",
+        #           f"ae: {aestarter.elapsed_time(aeender)} ms")
 
 
         return rpkg, imgOutput, geoOutput
